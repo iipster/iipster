@@ -1,0 +1,4 @@
+# Autoconfiguration
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+xyz.iipster.security.IbmiSecurityAutoConfiguration,\
+xyz.iipster.security.IbmiUIAutoConfiguration

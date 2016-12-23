@@ -1,0 +1,90 @@
+/*
+ * Copyright 2016 Damien Ferrand
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+buildscript {
+    ext {
+        springBootVersion = '1.4.3.RELEASE'
+        vaadin4SpringVersion = '0.0.7.RELEASE'
+    }
+    repositories {
+        mavenCentral()
+        maven {
+            url "https://plugins.gradle.org/m2/"
+        }
+    }
+    dependencies {
+        classpath("fi.jasoft.plugin:gradle-vaadin-plugin:1.1")
+    }
+}
+
+apply plugin: 'java'
+apply plugin: 'eclipse'
+apply plugin: 'fi.jasoft.plugin.vaadin'
+apply plugin: 'maven'
+
+jar {
+    baseName = 'spring-boot-security-ibmi'
+    version = '0.0.1-SNAPSHOT'
+}
+//noinspection GroovyUnusedAssignment
+sourceCompatibility = 1.8
+//noinspection GroovyUnusedAssignment
+targetCompatibility = 1.8
+
+repositories {
+    mavenCentral()
+    maven {
+        url "http://maven.vaadin.com/vaadin-addons"
+    }
+}
+
+task wrapper(type: Wrapper) {
+    gradleVersion = '3.2.1'
+}
+
+vaadinThemeCompile {
+    themesDirectory = 'src/main/resources/VAADIN/themes'
+}
+
+vaadin {
+    version "7.7.6"
+    manageDependencies false
+}
+
+task jar2(type:Jar, dependsOn: ['vaadinThemeCompile','classes']) {
+    appendix = jar.version
+    from sourceSets.main.output
+}
+
+task assemble2(type:Assemble, dependsOn: ['jar2'])
+
+build.dependsOn.remove('assemble')
+build.dependsOn.add('assemble2')
+
+dependencies {
+//    compile("org.springframework.boot:spring-boot-starter-web:${springBootVersion}")
+    compile("com.vaadin:vaadin-spring-boot-starter:1.1.1")
+    compile("org.vaadin.spring.addons:vaadin-spring-addon-i18n:${vaadin4SpringVersion}")
+    compile("org.vaadin.spring.addons:vaadin-spring-addon-sidebar:${vaadin4SpringVersion}")
+    compile("com.google.guava:guava:20.0")
+    compile("org.springframework.boot:spring-boot-starter-security:${springBootVersion}")
+    runtime("org.springframework.boot:spring-boot-devtools:${springBootVersion}")
+    testCompile("org.springframework.boot:spring-boot-starter-test:${springBootVersion}")
+    compile('net.sf.jt400:jt400:9.1')
+
+//    compile("org.springframework.boot:spring-boot-actuator:${springBootVersion}")
+}
+

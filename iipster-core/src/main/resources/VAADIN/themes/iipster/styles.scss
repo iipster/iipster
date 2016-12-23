@@ -1,0 +1,10 @@
+@import "variables";
+@import "../valo/valo";
+
+.iipster {
+   @include valo;
+}
+
+.upper-case {
+    text-transform: uppercase;
+}

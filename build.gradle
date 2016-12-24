@@ -14,10 +14,9 @@
  * limitations under the License.
  */
 
-buildscript {
-    ext {
-        projectVersion = '0.0.1-SNAPSHOT'
-    }
+allprojects {
+    group = "xyz.iipster"
+    version = "0.0.1-SNAPSHOT"
 }
 
 task wrapper(type: Wrapper) {

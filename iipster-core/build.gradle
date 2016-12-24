@@ -30,9 +30,9 @@ buildscript {
     }
 }
 
+apply plugin: 'fi.jasoft.plugin.vaadin'
 apply plugin: 'java'
 apply plugin: 'eclipse'
-apply plugin: 'fi.jasoft.plugin.vaadin'
 apply plugin: 'maven'
 
 //noinspection GroovyUnusedAssignment
@@ -57,7 +57,6 @@ vaadin {
 }
 
 task jar2(type:Jar, dependsOn: ['vaadinThemeCompile','classes']) {
-    appendix = projectVersion
     from sourceSets.main.output
 }
 
@@ -65,6 +64,14 @@ task assemble2(type:Assemble, dependsOn: ['jar2'])
 
 build.dependsOn.remove('assemble')
 build.dependsOn.add('assemble2')
+
+install.dependsOn = ['jar2']
+
+configurations.archives.artifacts.clear()
+
+artifacts {
+    archives jar2
+}
 
 dependencies {
 //    compile("org.springframework.boot:spring-boot-starter-web:${springBootVersion}")

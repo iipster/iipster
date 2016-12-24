@@ -35,10 +35,6 @@ apply plugin: 'eclipse'
 apply plugin: 'fi.jasoft.plugin.vaadin'
 apply plugin: 'maven'
 
-jar {
-    baseName = 'spring-boot-security-ibmi'
-    version = '0.0.1-SNAPSHOT'
-}
 //noinspection GroovyUnusedAssignment
 sourceCompatibility = 1.8
 //noinspection GroovyUnusedAssignment
@@ -51,10 +47,6 @@ repositories {
     }
 }
 
-task wrapper(type: Wrapper) {
-    gradleVersion = '3.2.1'
-}
-
 vaadinThemeCompile {
     themesDirectory = 'src/main/resources/VAADIN/themes'
 }
@@ -65,7 +57,7 @@ vaadin {
 }
 
 task jar2(type:Jar, dependsOn: ['vaadinThemeCompile','classes']) {
-    appendix = jar.version
+    appendix = projectVersion
     from sourceSets.main.output
 }
 

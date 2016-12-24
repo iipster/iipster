@@ -14,28 +14,25 @@
  * limitations under the License.
  */
 
-package xyz.iipster.security;
-
-import com.ibm.as400.access.AS400SecurityException;
-
-import java.io.IOException;
+package xyz.iipster.ui;
 
 /**
- * IBM i services.
+ * Event fired when the user password is successfully changed.
  *
  * @author df@bigbluebox.ca
  * @since 0.0.1
  */
-public interface IbmiService {
+public class PasswordChangedEvent {
+    private final String newPassword;
+
+    public PasswordChangedEvent(String newPassword) {
+        this.newPassword = newPassword;
+    }
 
     /**
-     * Change the given user profile password.
-     *
-     * @param userName    the user profile name
-     * @param oldPassword the current password
-     * @param newPassword the new password
-     * @throws AS400SecurityException
-     * @throws IOException
+     * @return the new user password
      */
-    void changePassword(String userName, String oldPassword, String newPassword) throws AS400SecurityException, IOException;
+    public String getNewPassword() {
+        return newPassword;
+    }
 }

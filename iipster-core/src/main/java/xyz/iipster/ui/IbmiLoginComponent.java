@@ -14,15 +14,20 @@
  * limitations under the License.
  */
 
-package xyz.iipster.security;
+package xyz.iipster.ui;
 
 import com.vaadin.ui.CustomComponent;
 
 /**
- * Marker interface for UI main Component.
+ * Interface for the login form Component.
  *
- * @author df@bigblueboxl.ca
+ * @author df@bigbluebox.ca
  * @since 0.0.1
  */
-public abstract class IbmiMainComponent extends CustomComponent {
+public abstract class IbmiLoginComponent extends CustomComponent {
+
+    /**
+     * Called when the form is displayed.
+     */
+    public abstract void show();
 }

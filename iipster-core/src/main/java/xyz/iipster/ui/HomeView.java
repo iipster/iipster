@@ -14,24 +14,15 @@
  * limitations under the License.
  */
 
-package xyz.iipster.security;
+package xyz.iipster.ui;
 
-import org.springframework.stereotype.Component;
-import org.vaadin.spring.sidebar.annotation.SideBarSection;
-import org.vaadin.spring.sidebar.annotation.SideBarSections;
+import com.vaadin.navigator.View;
 
 /**
- * Defines the base side bar sections.
+ * Marker interface for the home view. If a bean of this type is declared, DefaultHomeView will not be activated.
  *
  * @author df@bigbluebox.ca
  * @since 0.0.1
  */
-@SideBarSections({
-        @SideBarSection(id = Sections.ACTIONS, captionCode = "iipster.sections.actions", order = 1_000),
-        @SideBarSection(id = Sections.UTILS, captionCode = "iipster.sections.utils", order = 1_000_000)
-})
-@Component
-public class Sections {
-    public static final String ACTIONS = "iipster.actions";
-    public static final String UTILS = "iipster.utils";
+public interface HomeView extends View {
 }

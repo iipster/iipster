@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package xyz.iipster.security;
+package xyz.iipster.ui;
 
 import com.google.common.eventbus.EventBus;
 import com.ibm.as400.access.AS400SecurityException;
@@ -26,6 +26,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.stereotype.Component;
 import org.vaadin.spring.i18n.I18N;
+import xyz.iipster.IbmiService;
+import xyz.iipster.security.SecurityUtils;
 
 import java.io.IOException;
 

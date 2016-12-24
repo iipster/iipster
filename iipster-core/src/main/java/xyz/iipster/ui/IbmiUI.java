@@ -14,25 +14,15 @@
  * limitations under the License.
  */
 
-package xyz.iipster.security;
+package xyz.iipster.ui;
+
+import com.vaadin.ui.UI;
 
 /**
- * Event fired when the user password is successfully changed.
+ * Marker interface for the default UI.
  *
  * @author df@bigbluebox.ca
  * @since 0.0.1
  */
-public class PasswordChangedEvent {
-    private final String newPassword;
-
-    public PasswordChangedEvent(String newPassword) {
-        this.newPassword = newPassword;
-    }
-
-    /**
-     * @return the new user password
-     */
-    public String getNewPassword() {
-        return newPassword;
-    }
+public abstract class IbmiUI extends UI {
 }

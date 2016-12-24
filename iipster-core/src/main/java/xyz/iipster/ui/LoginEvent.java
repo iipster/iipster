@@ -14,22 +14,25 @@
  * limitations under the License.
  */
 
-package xyz.iipster.security;
+package xyz.iipster.ui;
 
 /**
- * Ibm i information holder.
+ * Event fired when the user logs in.
  *
  * @author df@bigbluebox.ca
  * @since 0.0.1
  */
-public class IbmiInformation {
-    private String address;
+public class LoginEvent {
+    private final String userName;
 
-    public String getAddress() {
-        return address;
+    public LoginEvent(String userName) {
+        this.userName = userName;
     }
 
-    public void setAddress(String address) {
-        this.address = address;
+    /**
+     * @return the name of the logged in user.
+     */
+    public String getUserName() {
+        return userName;
     }
 }

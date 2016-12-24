@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package xyz.iipster.security;
+package xyz.iipster.ui;
 
 import com.google.common.eventbus.EventBus;
 import com.google.common.eventbus.Subscribe;
@@ -25,6 +25,7 @@ import com.vaadin.spring.annotation.SpringUI;
 import org.springframework.beans.factory.annotation.Value;
 import org.vaadin.spring.i18n.annotation.EnableI18N;
 import org.vaadin.spring.sidebar.annotation.EnableSideBar;
+import xyz.iipster.security.SecurityUtils;
 
 /**
  * This is the default UI. It is responsible for displaying the Login screen if user is not authenticated or

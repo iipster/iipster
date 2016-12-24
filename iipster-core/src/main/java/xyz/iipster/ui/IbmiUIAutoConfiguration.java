@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package xyz.iipster.security;
+package xyz.iipster.ui;
 
 import com.google.common.eventbus.EventBus;
 import com.vaadin.spring.annotation.UIScope;
@@ -24,6 +24,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import org.vaadin.spring.i18n.MessageProvider;
 import org.vaadin.spring.i18n.ResourceBundleMessageProvider;
+import xyz.iipster.IbmiServiceImpl;
 
 /**
  * Auto configuration for the UI.
@@ -42,25 +43,25 @@ public class IbmiUIAutoConfiguration {
         return new EventBus();
     }
 
-    @ConditionalOnMissingBean(xyz.iipster.security.IbmiUI.class)
+    @ConditionalOnMissingBean(xyz.iipster.ui.IbmiUI.class)
     @Import(DefaultIbmiUI.class)
     protected static class IbmiUI {
 
     }
 
-    @ConditionalOnMissingBean(xyz.iipster.security.IbmiLoginComponent.class)
+    @ConditionalOnMissingBean(xyz.iipster.ui.IbmiLoginComponent.class)
     @Import(DefaultIbmiLoginComponent.class)
     protected static class IbmiLoginComponent {
 
     }
 
-    @ConditionalOnMissingBean(xyz.iipster.security.IbmiMainComponent.class)
+    @ConditionalOnMissingBean(xyz.iipster.ui.IbmiMainComponent.class)
     @Import(DefaultIbmiMainComponent.class)
     protected static class IbmiMainComponent {
 
     }
 
-    @ConditionalOnMissingBean(xyz.iipster.security.HomeView.class)
+    @ConditionalOnMissingBean(xyz.iipster.ui.HomeView.class)
     @Import(DefaultHomeView.class)
     protected static class HomeView {
 

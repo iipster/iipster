@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package xyz.iipster.security;
+package xyz.iipster;
 
 import com.ibm.as400.access.AS400;
 import com.ibm.as400.access.AS400SecurityException;

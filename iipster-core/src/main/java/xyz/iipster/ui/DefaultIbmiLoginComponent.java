@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package xyz.iipster.security;
+package xyz.iipster.ui;
 
 import com.google.common.eventbus.EventBus;
 import com.google.common.eventbus.Subscribe;
@@ -28,6 +28,7 @@ import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
 import org.vaadin.spring.i18n.I18N;
+import xyz.iipster.security.SecurityUtils;
 
 /**
  * The default login form. It will be used if no IbmiLoginComponent bean is defined.
@@ -69,6 +70,7 @@ public class DefaultIbmiLoginComponent extends IbmiLoginComponent {
         userNameTF.setCaption(i18N.get("iipster.login.username.label"));
         userNameTF.setRequired(true);
         userNameTF.addStyleName("upper-case");
+        userNameTF.setMaxLength(10);
         passwordPF.setCaption(i18N.get("iipster.login.password.label"));
         passwordPF.setRequired(true);
 

@@ -16,13 +16,15 @@
 
 package xyz.iipster.security;
 
-import com.ibm.as400.access.AS400;
-import com.ibm.as400.access.AS400SecurityException;
+import com.ibm.as400.access.*;
+import com.ibm.as400.security.auth.UserProfilePrincipal;
 import org.springframework.security.authentication.*;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Component;
+import xyz.iipster.IbmiInformation;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -31,15 +33,19 @@ import java.util.List;
 /**
  * Spring Security Authentication Provider to perform authentication against IBM i user profiles.
  *
+ *
+ *
  * @author df@bigbluebox.ca
  * @since 0.0.1
  */
 @Component
 public class IbmiAuthenticationProvider implements AuthenticationProvider {
     private final AS400 as400;
+    private final IbmiInformation ibmiInformation;
 
-    public IbmiAuthenticationProvider(AS400 as400) {
+    public IbmiAuthenticationProvider(AS400 as400, IbmiInformation ibmiInformation) {
         this.as400 = as400;
+        this.ibmiInformation = ibmiInformation;
     }
 
     @Override
@@ -48,7 +54,16 @@ public class IbmiAuthenticationProvider implements AuthenticationProvider {
         final String password = authentication.getCredentials().toString();
         try {
             if (as400.authenticate(userName, password)) {
-                List<GrantedAuthority> authorities = new ArrayList<>();
+                // Create an AS400 object with the authenticating user to be able to get its special authorities
+                // this is needed if the user of the AS400 bean is not authorized on the authenticating user
+                // profile
+                AS400 currAs400 = new AS400(ibmiInformation.getAddress(), userName, password);
+                User user = new User(currAs400, userName);
+                List<GrantedAuthority> authorities = new ArrayList<>(user.getSpecialAuthority().length);
+                for (String sa : user.getSpecialAuthority()) {
+                    authorities.add(new SimpleGrantedAuthority("IIPSTER_SPECIAL_AUTHORITY_" +
+                            sa.substring(1)));
+                }
                 return new UsernamePasswordAuthenticationToken(userName, password,
                         authorities);
             } else {
@@ -71,6 +86,12 @@ public class IbmiAuthenticationProvider implements AuthenticationProvider {
             throw new AuthenticationServiceException("Could not authenticate", e);
         } catch (IOException e) {
             throw new AuthenticationServiceException("Could not authenticate", e);
+        } catch (InterruptedException e) {
+            throw new AuthenticationServiceException("Interrupted while getting user profile", e);
+        } catch (ObjectDoesNotExistException e) {
+            throw new RuntimeException("Can't find user profile after authentication", e);
+        } catch (ErrorCompletingRequestException e) {
+            throw new RuntimeException("Error while getting user profile after authentications", e);
         }
     }
 

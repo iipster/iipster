@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package xyz.iipster.security;
+package xyz.iipster.ui;
 
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewDisplay;

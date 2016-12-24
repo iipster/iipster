@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package xyz.iipster.security;
+package xyz.iipster.ui;
 
 import com.vaadin.server.FontAwesome;
 import com.vaadin.spring.annotation.UIScope;

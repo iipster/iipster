@@ -26,6 +26,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.method.configuration.GlobalMethodSecurityConfiguration;
 import org.springframework.security.core.context.SecurityContextHolder;
+import xyz.iipster.IbmiInformation;
 
 /**
  * Spring Security auto configuration for IbmiAuthenticationProvider.
@@ -34,11 +35,12 @@ import org.springframework.security.core.context.SecurityContextHolder;
 @Import(SecurityUtilsImpl.class)
 public class IbmiSecurityAutoConfiguration {
 
+    @SuppressWarnings("SpringJavaAutowiringInspection")
     @Bean
     @ConditionalOnBean(AS400.class)
     @ConditionalOnMissingBean(IbmiAuthenticationProvider.class)
-    public IbmiAuthenticationProvider ibmiAuthenticationProvider(AS400 as400) {
-        return new IbmiAuthenticationProvider(as400);
+    public IbmiAuthenticationProvider ibmiAuthenticationProvider(AS400 as400, IbmiInformation ibmiInformation) {
+        return new IbmiAuthenticationProvider(as400, ibmiInformation);
     }
 
     @Configuration

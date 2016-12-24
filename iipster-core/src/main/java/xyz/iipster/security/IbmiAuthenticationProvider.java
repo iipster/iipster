@@ -33,7 +33,8 @@ import java.util.List;
 /**
  * Spring Security Authentication Provider to perform authentication against IBM i user profiles.
  *
- *
+ * User special authorities are mapped as roles (for example *AUDIT special authority becomes
+ * IIPSTER_SPECIAL_AUTHORITY_AUDIT).
  *
  * @author df@bigbluebox.ca
  * @since 0.0.1

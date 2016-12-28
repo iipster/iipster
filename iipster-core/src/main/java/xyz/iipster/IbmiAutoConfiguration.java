@@ -18,12 +18,22 @@
 package xyz.iipster;
 
 import com.ibm.as400.access.AS400;
+import com.ibm.as400.access.AS400JDBCDataSource;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.AutoConfigureBefore;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
+import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.env.ConfigurableEnvironment;
+import org.springframework.core.env.Environment;
+import org.springframework.core.env.PropertiesPropertySource;
+
+import javax.sql.DataSource;
+import java.util.Properties;
 
 /**
  * Ibm i auto configuration.
@@ -34,6 +44,7 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 @ConditionalOnClass(AS400.class)
 @EnableConfigurationProperties(IbmiInformation.class)
+@AutoConfigureBefore(DataSourceAutoConfiguration.class)
 public class IbmiAutoConfiguration {
     private final IbmiInformation ibmiInformation;
 
@@ -59,5 +70,16 @@ public class IbmiAutoConfiguration {
             }
         }
         return new AS400(ibmiInformation.getAddress(), ibmiInformation.getUser(), ibmiInformation.getPassword());
+    }
+
+    @Bean
+    @ConditionalOnMissingBean(DataSource.class)
+    @ConditionalOnBean(AS400.class)
+    public DataSource as400JDBCDataSource(AS400 as400, ConfigurableEnvironment configurableEnvironment) {
+        final Properties properties = new Properties();
+        properties.setProperty("spring.jpa.properties.hibernate.dialect", "org.hibernate.dialect.DB2400Dialect");
+        PropertiesPropertySource pps = new PropertiesPropertySource("iipster", properties);
+        configurableEnvironment.getPropertySources().addLast(pps);
+        return new AS400JDBCDataSource(as400);
     }
 }

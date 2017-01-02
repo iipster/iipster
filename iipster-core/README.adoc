@@ -1,0 +1,49 @@
+== iipster-core
+
+Provides the core functionnality for iipster.
+
+=== Include dependencies
+
+Simply including iipster-core in your application will provide the needed dependencies:
+
+* Spring Boot
+* Spring Security
+* Spring Devtools
+* Spring Testing
+* Spring Boot actuators
+* Spring Data JPA
+* jtopen
+* Vaadin with Spring add-on
+* Vaadin i18n
+* Vaadin sidebar
+* Google guava
+
+=== IBM i authentication provider
+
+Provides Spring Security authentication against IBM i user profiles.
+
+Authorization is currently limited to special authorities.
+For each special authority the user profile has, a role will be added, it is the name of the special authority (minus the leading *) prefixed with IIPSTER_SPECIAL_AUTHORITY_.
+For example, if user has *ALLOBJ special authority, it will have the IIPSTER_SPECIAL_AUTHORITY_ALLOBJ role.
+
+=== Vaadin and Spring Security integration
+
+Ties the Spring Security Context to the Vaadin Session.
+
+=== Login screen
+
+Provides a Vaadin login screen for authentication against IBM i.
+Also provides a screen to change password in case it is expired.
+
+=== Default UI
+
+Provides a default Vaadin UI with the following functionality:
+
+* Shows the login screen if user is not authenticated
+* Displays a side bar (https://github.com/peholmst/vaadin4spring/tree/master/addons/sidebar) if there is at least one item to show
+* Displays the select SpringView
+* i18n (via https://github.com/peholmst/vaadin4spring/tree/master/addons/i18n)
+
+=== Customized valo theme
+
+Provides a custom  valo theme based on the Facebook variation (https://vaadin.com/wiki/-/wiki/Main/Valo+Examples).

@@ -26,7 +26,7 @@ buildscript {
         }
     }
     dependencies {
-        classpath("fi.jasoft.plugin:gradle-vaadin-plugin:1.1")
+        classpath("fi.jasoft.plugin:gradle-vaadin-plugin:1.1.1")
     }
 }
 

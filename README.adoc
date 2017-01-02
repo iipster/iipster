@@ -1,0 +1,15 @@
+== iipster
+
+iipster makes it easy to create web applications based on IBM i.
+
+It leverages the following technologies:
+
+* Spring Boot as the base framework
+* Spring Security
+* Vaadin as the front end framework
+* Google guava as an event bus
+* jtopen for IBM i access and JDBC
+
+=== iipster-core
+
+Provides the core functionnality and the required dependencies for a functionnal application.

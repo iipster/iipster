@@ -18,11 +18,16 @@ package xyz.iipster.security;
 
 import com.ibm.as400.access.*;
 import com.ibm.as400.security.auth.UserProfilePrincipal;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.*;
+import org.springframework.security.authentication.dao.AbstractUserDetailsAuthenticationProvider;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
 import xyz.iipster.IbmiInformation;
 
@@ -32,7 +37,7 @@ import java.util.List;
 
 /**
  * Spring Security Authentication Provider to perform authentication against IBM i user profiles.
- *
+ * <p>
  * User special authorities are mapped as roles (for example *AUDIT special authority becomes
  * IIPSTER_SPECIAL_AUTHORITY_AUDIT).
  *
@@ -43,6 +48,8 @@ import java.util.List;
 public class IbmiAuthenticationProvider implements AuthenticationProvider {
     private final AS400 as400;
     private final IbmiInformation ibmiInformation;
+    @Autowired(required = false)
+    private UserDetailsService userDetailsService;
 
     public IbmiAuthenticationProvider(AS400 as400, IbmiInformation ibmiInformation) {
         this.as400 = as400;
@@ -65,6 +72,11 @@ public class IbmiAuthenticationProvider implements AuthenticationProvider {
                     authorities.add(new SimpleGrantedAuthority("IIPSTER_SPECIAL_AUTHORITY_" +
                             sa.substring(1)));
                 }
+                // If a UserDetailsService beans exists, we get the user information from it
+                if (userDetailsService != null) {
+                    UserDetails userDetails = userDetailsService.loadUserByUsername(userName);
+                    authorities.addAll(userDetails.getAuthorities());
+                }
                 return new UsernamePasswordAuthenticationToken(userName, password,
                         authorities);
             } else {
@@ -72,7 +84,7 @@ public class IbmiAuthenticationProvider implements AuthenticationProvider {
             }
         } catch (AS400SecurityException e) {
             if (e.getReturnCode() == AS400SecurityException.USERID_UNKNOWN) {
-                return null;
+                throw new UsernameNotFoundException("Username not found", e);
             }
             if (e.getReturnCode() == AS400SecurityException.PASSWORD_INCORRECT ||
                     e.getReturnCode() == AS400SecurityException.PASSWORD_INCORRECT_USERID_DISABLE) {

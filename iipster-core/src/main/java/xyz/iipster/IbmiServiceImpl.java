@@ -35,8 +35,8 @@ public class IbmiServiceImpl implements IbmiService {
     }
 
     @Override
-    public void changePassword(String userName, String oldPassword, String newPassword) throws AS400SecurityException,
-            BadCredentialsException, IOException {
+    public void changePassword(String userName, String oldPassword, String newPassword) throws
+            BadCredentialsException, IOException, NewPasswordInvalidException {
         AS400 tmpAs400 = new AS400(ibmiInformation.getAddress(), userName);
 
         try {
@@ -46,7 +46,7 @@ public class IbmiServiceImpl implements IbmiService {
                 case AS400SecurityException.PASSWORD_OLD_NOT_VALID:
                     throw new BadCredentialsException("Old password not valid", e);
                 default:
-                    throw e;
+                    throw new NewPasswordInvalidException(e);
             }
         }
     }

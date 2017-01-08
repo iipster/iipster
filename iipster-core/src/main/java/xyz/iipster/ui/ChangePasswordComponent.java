@@ -27,6 +27,7 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.stereotype.Component;
 import org.vaadin.spring.i18n.I18N;
 import xyz.iipster.IbmiService;
+import xyz.iipster.NewPasswordInvalidException;
 import xyz.iipster.security.SecurityUtils;
 
 import java.io.IOException;
@@ -105,8 +106,11 @@ public class ChangePasswordComponent extends Window {
             } catch (BadCredentialsException e1) {
                 Notification.show(i18N.get("iipster.changePassword.oldPassword.error"), Notification.Type.WARNING_MESSAGE);
                 oldPasswordField.focus();
-            } catch (AS400SecurityException | IOException e1) {
+            } catch (IOException e1) {
                 Notification.show("Error while changing password", Notification.Type.ERROR_MESSAGE);
+            } catch (NewPasswordInvalidException e1) {
+                Notification.show(i18N.get(e1.getMessageId()), Notification.Type.WARNING_MESSAGE);
+                newPasswordField1.focus();
             }
         });
 

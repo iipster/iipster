@@ -37,5 +37,5 @@ public interface IbmiService {
      * @throws AS400SecurityException
      * @throws IOException
      */
-    void changePassword(String userName, String oldPassword, String newPassword) throws AS400SecurityException, IOException;
+    void changePassword(String userName, String oldPassword, String newPassword) throws IOException, NewPasswordInvalidException;
 }

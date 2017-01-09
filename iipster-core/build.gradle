@@ -34,6 +34,7 @@ apply plugin: 'fi.jasoft.plugin.vaadin'
 apply plugin: 'java'
 apply plugin: 'eclipse'
 apply plugin: 'maven'
+apply plugin: 'signing'
 
 //noinspection GroovyUnusedAssignment
 sourceCompatibility = 1.8
@@ -67,10 +68,62 @@ build.dependsOn.add('assemble2')
 
 install.dependsOn = ['jar2']
 
+task javadocJar(type: Jar) {
+    classifier = 'javadoc'
+    from javadoc
+}
+
+task sourceJar(type: Jar) {
+    classifier = 'sources'
+    from sourceSets.main.allSource
+}
+
 configurations.archives.artifacts.clear()
 
 artifacts {
-    archives jar2
+    archives jar2, javadocJar, sourceJar
+}
+
+signing {
+    sign configurations.archives
+}
+
+uploadArchives {
+    repositories {
+        mavenDeployer {
+            beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
+
+            repository(url: "https://oss.sonatype.org/service/local/staging/deploy/maven2/") {
+                authentication(userName: ossrhUsername, password: ossrhPassword)
+            }
+
+            snapshotRepository(url: "https://oss.sonatype.org/content/repositories/snapshots/") {
+                authentication(userName: ossrhUsername, password: ossrhPassword)
+            }
+
+            pom.project {
+                name 'ipster-core'
+                packaging 'jar'
+                description 'iipster core'
+                url 'https://github.com/iipster/iipster'
+
+                licenses {
+                    license {
+                        name 'The Apache License, Version 2.0'
+                        url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+                    }
+                }
+
+                developers {
+                    developer {
+                        id 'dferrand'
+                        name 'Damien Ferrand'
+                        email 'df@bigbluebox.ca'
+                    }
+                }
+            }
+        }
+    }
 }
 
 dependencies {

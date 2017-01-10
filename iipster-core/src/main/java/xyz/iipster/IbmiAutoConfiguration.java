@@ -80,6 +80,10 @@ public class IbmiAutoConfiguration {
         properties.setProperty("spring.jpa.properties.hibernate.dialect", "org.hibernate.dialect.DB2400Dialect");
         PropertiesPropertySource pps = new PropertiesPropertySource("iipster", properties);
         configurableEnvironment.getPropertySources().addLast(pps);
-        return new AS400JDBCDataSource(as400);
+        final AS400JDBCDataSource retVal = new AS400JDBCDataSource(as400);
+        retVal.setAutoCommit(false);
+        retVal.setNaming("system");
+        retVal.setTranslateBinary(true);
+        return retVal;
     }
 }

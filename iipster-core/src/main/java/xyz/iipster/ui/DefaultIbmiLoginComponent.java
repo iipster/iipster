@@ -68,11 +68,11 @@ public class DefaultIbmiLoginComponent extends IbmiLoginComponent {
         fl.setSizeUndefined();
 
         userNameTF.setCaption(i18N.get("iipster.login.username.label"));
-        userNameTF.setRequired(true);
+//        userNameTF.setRequired(true);
         userNameTF.addStyleName("upper-case");
         userNameTF.setMaxLength(10);
         passwordPF.setCaption(i18N.get("iipster.login.password.label"));
-        passwordPF.setRequired(true);
+//        passwordPF.setRequired(true);
 
         fl.addComponent(userNameTF);
         fl.addComponent(passwordPF);
